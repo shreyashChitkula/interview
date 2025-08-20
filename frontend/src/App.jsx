@@ -8,9 +8,11 @@ function App() {
   const [content, setContent] = useState("");
   const [username, setUsername] = useState("");
 
+  // get the backend url from .env
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
   // Load feeds from backend API on mount
   useEffect(() => {
-    fetch("http://localhost:5000/api/feeds")
+    fetch(`${backendUrl}/api/feeds`)
       .then((res) => res.json())
       .then((data) => setFeeds(data))
       .catch(() => setFeeds([]));
@@ -19,7 +21,7 @@ function App() {
   // Save feeds to backend API
   const saveFeedToBackend = async (feed) => {
     try {
-      const res = await fetch("http://localhost:5000/api/feeds", {
+      const res = await fetch(`${backendUrl}/api/feeds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(feed),
